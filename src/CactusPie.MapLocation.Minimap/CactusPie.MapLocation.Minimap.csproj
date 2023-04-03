@@ -1,0 +1,198 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWPF>true</UseWPF>
+        <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+    </PropertyGroup>
+
+    <PropertyGroup>
+      <BeautySharedRuntimeMode>False</BeautySharedRuntimeMode>
+      <!-- beauty into sub-directory, default is libs, quote with "" if contains space  -->
+      <BeautyLibsDir Condition="$(BeautySharedRuntimeMode) == 'True'">../Libraries</BeautyLibsDir>
+      <BeautyLibsDir Condition="$(BeautySharedRuntimeMode) != 'True'">./Libraries</BeautyLibsDir>
+      <!-- dlls that you don't want to be moved or can not be moved -->
+      <!-- <BeautyExcludes>dll1.dll;lib*;...</BeautyExcludes> -->
+      <!-- dlls that end users never needed, so hide them -->
+      <!-- <BeautyHiddens>hostfxr;hostpolicy;*.deps.json;*.runtimeconfig*.json</BeautyHiddens> -->
+      <!-- set to True if you want to disable -->
+      <DisableBeauty>False</DisableBeauty>
+      <!-- set to False if you want to beauty on build -->
+      <BeautyOnPublishOnly>False</BeautyOnPublishOnly>
+      <!-- set to True if you want to allow 3rd debuggers(like dnSpy) debugs the app -->
+      <BeautyEnableDebugging>False</BeautyEnableDebugging>
+      <!-- the patch can reduce the file count -->
+      <!-- set to False if you want to disable -->
+      <!-- SCD Mode Feature Only -->
+      <BeautyUsePatch>True</BeautyUsePatch>
+      <!-- <BeautyAfterTasks></BeautyAfterTasks> -->
+      <!-- valid values: Error|Detail|Info -->
+      <BeautyLogLevel>Info</BeautyLogLevel>
+      <!-- set to a repo mirror if you have troble in connecting github -->
+      <!-- <BeautyGitCDN>https://gitee.com/liesauer/HostFXRPatcher</BeautyGitCDN> -->
+      <!-- <BeautyGitTree>master</BeautyGitTree> -->
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Update="resources\Maps\customs_map.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\MapCreationData\Customs.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\MapCreationData\Customs Loot.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\MapCreationData\Interchange.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\MapCreationData\Interchange Floor 2.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\MapCreationData\Interchange Garage.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\MapCreationData\Lighthouse.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\MapCreationData\Lighthouse Loot.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\MapCreationData\Reserve.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\MapCreationData\Reserve 2.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\MapCreationData\Shoreline.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\MapCreationData\Streets Of Tarkov.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\MapCreationData\Woods.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\Customs.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\Customs Loot.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\Interchange.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\Interchange Floor 2.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\Interchange Garage.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\Lighthouse.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\Lighthouse Loot.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\Reserve.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\Reserve 2.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\Shoreline.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\Streets Of Tarkov.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\Woods.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\Reserve Underground South.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Maps\MapCreationData\Reserve Underground South.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Resources\circle.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources\circle_with_arrow.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Resources\circle.png" />
+      <None Remove="Maps\Images\customs_loot_map.png" />
+      <Content Include="Maps\Images\customs_loot_map.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Maps\Images\customs_map.png" />
+      <Content Include="Maps\Images\customs_map.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Maps\Images\interchange__floor2_map.png" />
+      <Content Include="Maps\Images\interchange__floor2_map.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Maps\Images\interchange_garage_map.png" />
+      <Content Include="Maps\Images\interchange_garage_map.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Maps\Images\interchange_map.png" />
+      <Content Include="Maps\Images\interchange_map.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Maps\Images\lighthouse_loot_map.png" />
+      <Content Include="Maps\Images\lighthouse_loot_map.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Maps\Images\lighthouse_map.png" />
+      <Content Include="Maps\Images\lighthouse_map.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Maps\Images\reserve_map.jpg" />
+      <Content Include="Maps\Images\reserve_map.jpg">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Maps\Images\reserve_map2.png" />
+      <Content Include="Maps\Images\reserve_map2.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Maps\Images\shoreline_map.png" />
+      <Content Include="Maps\Images\shoreline_map.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Maps\Images\streets_of_tarkov_map.png" />
+      <Content Include="Maps\Images\streets_of_tarkov_map.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Maps\Images\woods_map.png" />
+      <Content Include="Maps\Images\woods_map.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Maps\Images\reserve_underground_south.png" />
+      <Content Include="Maps\Images\reserve_underground_south.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Autofac" Version="7.0.0" />
+      <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
+      <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+      <PackageReference Include="nulastudio.NetCoreBeauty" Version="1.2.9.3" />
+      <PackageReference Include="ScottPlot.WPF" Version="4.1.61" />
+      <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,13 @@
+{
+  "MapName": "Reserve Underground South",
+  "MapImageFile": "reserve_underground_south.png",
+  "MapRotation": 0,
+  "XCoefficients": [
+    705.7816999644135,
+    -3.5341092172989303
+  ],
+  "ZCoefficients": [
+    293.7848561165803,
+    3.5055144507848306
+  ]
+}
