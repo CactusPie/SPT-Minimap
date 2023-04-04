@@ -81,8 +81,6 @@ namespace CactusPie.MapLocation
 
             byte[] content = GetArrays().SelectMany(x => x).ToArray();
 
-            MapLocationPlugin.MapLocationLogger.LogInfo($"{playerPosition} {playerRotation}");
-            
             _udpClient.Send(content, content.Length, _sendEndpoint);
         }
 
