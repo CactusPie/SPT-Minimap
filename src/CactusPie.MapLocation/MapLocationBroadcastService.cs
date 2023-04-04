@@ -31,7 +31,14 @@ namespace CactusPie.MapLocation
 
             _timer.Elapsed += (sender, args) =>
             {
-                SendData();
+                try
+                {
+                    SendData();
+                }
+                catch (Exception e)
+                {
+                    MapLocationPlugin.MapLocationLogger.LogError($"Exception {e.GetType()} occured. Message: {e.Message}. StackTrace: {e.StackTrace}");
+                }
             };
         }
 
