@@ -51,8 +51,10 @@ namespace CactusPie.MapLocation.Minimap
             containerBuilder.RegisterType<PlotWindow>().AsSelf().InstancePerDependency();
             containerBuilder.RegisterType<MainWindow>().AsSelf().InstancePerDependency();
             containerBuilder.RegisterType<AddNewMapDialog>().AsSelf().InstancePerDependency();
+            containerBuilder.RegisterType<ThemeSelector>().AsSelf().InstancePerDependency();
             containerBuilder.RegisterType<MapDataReceiver>().As<IMapDataReceiver>().InstancePerDependency();
             containerBuilder.RegisterType<MapCreationDataManager>().As<IMapCreationDataManager>().SingleInstance();
+            containerBuilder.RegisterInstance(mapConfiguration).AsSelf();
 
             containerBuilder.Register(_ =>
             {

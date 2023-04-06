@@ -19,6 +19,7 @@ namespace CactusPie.MapLocation.Minimap
         private readonly IMapCreationDataManager _mapCreationDataManager;
         private readonly Func<AddNewMapDialog> _addNewMapDialogFactory;
         private readonly Func<PlotWindow> _plotWindowFactory;
+        private readonly Func<ThemeSelector> _themeSelectorFactory;
         private readonly IMapDataReceiver _mapDataReceiver;
 
         public MainWindow
@@ -26,12 +27,14 @@ namespace CactusPie.MapLocation.Minimap
             Func<IMapDataReceiver> mapDataReceiverFactory,
             IMapCreationDataManager mapCreationDataManager,
             Func<AddNewMapDialog> addNewMapDialogFactory,
-            Func<PlotWindow> plotWindowFactory
+            Func<PlotWindow> plotWindowFactory,
+            Func<ThemeSelector> themeSelectorFactory
         )
         {
             _mapCreationDataManager = mapCreationDataManager;
             _addNewMapDialogFactory = addNewMapDialogFactory;
             _plotWindowFactory = plotWindowFactory;
+            _themeSelectorFactory = themeSelectorFactory;
             _mapDataReceiver = mapDataReceiverFactory();
             InitializeComponent();
         }
@@ -40,6 +43,7 @@ namespace CactusPie.MapLocation.Minimap
         {
             base.OnInitialized(e);
             ReloadMapCreationPositionData();
+            ControlsStackPanel.Children.Add(_themeSelectorFactory());
 
             _mapDataReceiver.MapPositionDataReceived += MapDataReceiverOnMapPositionDataReceived;
             _mapDataReceiver.StartReceivingData();
