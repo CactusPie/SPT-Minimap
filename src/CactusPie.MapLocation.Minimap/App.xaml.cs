@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Autofac;
@@ -25,6 +27,10 @@ namespace CactusPie.MapLocation.Minimap
     {
         private void ApplicationStartup(object sender, StartupEventArgs e)
         {
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            
             Logger logger = CreateLogger();
             AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
             {
