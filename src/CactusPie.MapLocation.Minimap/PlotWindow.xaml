@@ -10,7 +10,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock TextWrapping="Wrap" TextAlignment="Center" FontSize="16">
+        <TextBlock TextWrapping="Wrap" TextAlignment="Center" FontSize="16" Foreground="Black">
             The lines should go roughly along the dots - they never will be exactly the same, but if the lines are too far off the dots, the 
             map position will be inaccurate!
         </TextBlock>
