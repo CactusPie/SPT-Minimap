@@ -28,7 +28,7 @@ namespace CactusPie.MapLocation.Minimap.Themes
 
         public static void SetTheme(ThemeTypes theme)
         {
-            string themeName = null;
+            string? themeName = null;
             CurrentTheme = theme;
             switch (theme)
             {
