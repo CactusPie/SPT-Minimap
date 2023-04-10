@@ -199,6 +199,11 @@ namespace CactusPie.MapLocation.Minimap
             {
                 this.ShowError("Position data is not yet available. Start the game and begin a new round first");
             }
+
+            if (!MapCreationDataTextBox.Text.EndsWith('\n'))
+            {
+                MapCreationDataTextBox.Text += '\n';
+            }
             
             MapCreationDataTextBox.Text += $"{CurrentPositionTextBox.Text}\n";
             SaveMapPositionDataToFile();
