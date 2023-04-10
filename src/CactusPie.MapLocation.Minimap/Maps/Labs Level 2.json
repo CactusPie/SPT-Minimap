@@ -1,0 +1,13 @@
+{
+  "MapName": "Labs Level 2",
+  "MapImageFile": "labs level 2.png",
+  "MapRotation": -90,
+  "XCoefficients": [
+    75.30462555246527,
+    -4.892907180205411
+  ],
+  "ZCoefficients": [
+    2710.5931115666594,
+    6.09925530635553
+  ]
+}
