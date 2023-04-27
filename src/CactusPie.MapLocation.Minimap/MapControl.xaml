@@ -13,9 +13,35 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
-        <ComboBox Grid.Row="0" Name="MapComboBox"></ComboBox>
+        <Grid Grid.Row="0" Background="{DynamicResource BackgroundColour}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <ComboBox Grid.Column="0" Name="MapComboBox" Margin="5 0 5 0"></ComboBox>
         
-        <Viewbox Name="MapViewBox" RenderTransformOrigin="0.5, 0.5" Grid.Row="1" MouseDown="PlayerOverlayCanvas_OnMouseDown" Panel.ZIndex="-1">
+            <Label Grid.Column="1">Marker size:</Label>
+        
+            <Slider Grid.Column="2" 
+                    Name="PlayerMarkerScaleSlider" 
+                    Minimum="20" Maximum="200" Value="100" 
+                    VerticalAlignment="Center"
+                    ValueChanged="PlayerMarkerScaleSlider_OnValueChanged"/>
+        
+            <Label Grid.Column="3">Marker opacity:</Label>
+        
+            <Slider Grid.Column="4" 
+                    Name="PlayerTransparencySlider" 
+                    Minimum="10" Maximum="100" Value="100" 
+                    Margin="0 0 5 0" VerticalAlignment="Center"
+                    ValueChanged="PlayerTransparencySlider_OnValueChanged"/>
+        </Grid>
+        
+        <Viewbox Name="MapViewBox" RenderTransformOrigin="0.5, 0.5" Grid.Row="1" Grid.ColumnSpan="5" MouseDown="PlayerOverlayCanvas_OnMouseDown" Panel.ZIndex="-1">
             <local:ZoomBorder x:Name="MapZoomBorder" Background="Transparent">
                 <Grid Background="Transparent">
                     <Image 

@@ -31,6 +31,7 @@ public partial class MapControl : UserControl
     public event EventHandler<MapSelectionChangedEventArgs>? MapSelectionChanged;
     
     private readonly RotateTransform _playerDotRotation = new();
+    private readonly ScaleTransform _playerDotScale = new();
     private List<IMap>? _maps;
     private bool _drawingEnabled;
 
@@ -90,7 +91,12 @@ public partial class MapControl : UserControl
     protected override void OnInitialized(EventArgs e)
     {
         base.OnInitialized(e);
-        PlayerDot.RenderTransform = _playerDotRotation;
+
+        var transformGroup = new TransformGroup();
+        transformGroup.Children.Add(_playerDotRotation);
+        transformGroup.Children.Add(_playerDotScale);
+
+        PlayerDot.RenderTransform = transformGroup;
 
         MapComboBox.SelectionChanged += MapComboBoxOnSelectionChanged;
         ReloadMaps();
@@ -195,5 +201,29 @@ public partial class MapControl : UserControl
     {
         EventHandler<MapSelectionChangedEventArgs>? handler = MapSelectionChanged;
         handler?.Invoke(this, e);
+    }
+
+    private void PlayerMarkerScaleSlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        if (PlayerDot == null)
+        {
+            return;
+        }
+
+        double scale = PlayerMarkerScaleSlider.Value / 100.0;
+
+        _playerDotScale.ScaleX = scale;
+        _playerDotScale.ScaleY = scale;
+    }
+
+    private void PlayerTransparencySlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        if (PlayerDot == null)
+        {
+            return;
+        }
+        
+        double opacity = PlayerTransparencySlider.Value / 100.0;
+        PlayerDot.Opacity = opacity;
     }
 }
