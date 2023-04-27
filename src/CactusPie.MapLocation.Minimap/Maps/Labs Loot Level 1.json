@@ -1,0 +1,13 @@
+{
+  "MapName": "Labs Loot Level 1",
+  "MapImageFile": "loot level 1.png",
+  "MapRotation": -90,
+  "XCoefficients": [
+    256.97865738432495,
+    -4.056611989749744
+  ],
+  "ZCoefficients": [
+    2041.4589613987428,
+    4.461408306077639
+  ]
+}
