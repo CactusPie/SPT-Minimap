@@ -1,61 +1,56 @@
 ﻿using System;
 using System.Windows;
 
-namespace CactusPie.MapLocation.Minimap.Themes
+namespace CactusPie.MapLocation.Minimap.Themes;
+
+public static class ThemesController
 {
-    public static class ThemesController
+    public enum ThemeTypes
     {
-        public enum ThemeTypes
-        {
-            Light,
-            ColourfulLight,
-            Dark,
-            ColourfulDark
-        }
+        Light,
 
-        public static ThemeTypes CurrentTheme { get; set; }
+        ColourfulLight,
 
-        private static ResourceDictionary ThemeDictionary
-        {
-            get { return Application.Current.Resources.MergedDictionaries[0]; }
-            set { Application.Current.Resources.MergedDictionaries[0] = value; }
-        }
+        Dark,
 
-        private static void ChangeTheme(Uri uri)
-        {
-            ThemeDictionary = new ResourceDictionary() { Source = uri };
-        }
+        ColourfulDark,
+    }
 
-        public static void SetTheme(ThemeTypes theme)
+    public static ThemeTypes CurrentTheme { get; set; }
+
+    private static ResourceDictionary ThemeDictionary
+    {
+        get => Application.Current.Resources.MergedDictionaries[0];
+        set => Application.Current.Resources.MergedDictionaries[0] = value;
+    }
+
+    private static void ChangeTheme(Uri uri)
+    {
+        ThemeDictionary = new ResourceDictionary { Source = uri };
+    }
+
+    public static void SetTheme(ThemeTypes theme)
+    {
+        string? themeName = null;
+        CurrentTheme = theme;
+        themeName = theme switch
         {
-            string? themeName = null;
-            CurrentTheme = theme;
-            switch (theme)
+            ThemeTypes.Dark => "DarkTheme",
+            ThemeTypes.Light => "LightTheme",
+            ThemeTypes.ColourfulDark => "ColourfulDarkTheme",
+            ThemeTypes.ColourfulLight => "ColourfulLightTheme",
+            _ => themeName,
+        };
+
+        try
+        {
+            if (!string.IsNullOrEmpty(themeName))
             {
-                case ThemeTypes.Dark:
-                    themeName = "DarkTheme";
-                    break;
-                case ThemeTypes.Light:
-                    themeName = "LightTheme";
-                    break;
-                case ThemeTypes.ColourfulDark:
-                    themeName = "ColourfulDarkTheme";
-                    break;
-                case ThemeTypes.ColourfulLight:
-                    themeName = "ColourfulLightTheme";
-                    break;
+                ChangeTheme(new Uri($"Themes/{themeName}.xaml", UriKind.Relative));
             }
-
-            try
-            {
-                if (!string.IsNullOrEmpty(themeName))
-                {
-                    ChangeTheme(new Uri($"Themes/{themeName}.xaml", UriKind.Relative));
-                }
-            }
-            catch
-            {
-            }
+        }
+        catch
+        {
         }
     }
 }

@@ -1,7 +1,9 @@
 {
   "MapName": "Shoreline",
-  "MapImageFile": "shoreline_map.png",
+  "MapIdentifier": "Shoreline",
+  "MapImageFile": "shoreline.jpg",
   "MapRotation": 0,
+  "MarkerScale": 0.9,
   "XCoefficients": [
     517.2139287394301,
     -1.0706661430752564

@@ -1,59 +1,44 @@
 using System;
-using System.Net;
-using Comfort.Common;
-using EFT;
+using CactusPie.MapLocation.DI;
+using CactusPie.MapLocation.Services;
 using JetBrains.Annotations;
 using UnityEngine;
 
 namespace CactusPie.MapLocation
 {
-    public class MapLocationController : MonoBehaviour
+    public sealed class MapLocationController : MonoBehaviour
     {
-        private MapLocationBroadcastService _mapLocationBroadcastService;
-        
+        private IMapDataServer _mapDataServer;
+
         [UsedImplicitly]
         public void Start()
         {
-            var gamePlayerOwner = GetLocalPlayerFromWorld().GetComponentInChildren<GamePlayerOwner>();
-            MapLocationPlugin.RefreshIntervalMillieconds.SettingChanged += RefreshIntervalSecondsOnSettingChanged;
-            
-            if (_mapLocationBroadcastService == null)
+            try
             {
-                IPAddress ipAddress = IPAddress.Parse(MapLocationPlugin.DestinationIpAddress.Value);
-                var destinationEndpoint = new IPEndPoint(ipAddress, MapLocationPlugin.DestinationPort.Value);
-                _mapLocationBroadcastService = new MapLocationBroadcastService(gamePlayerOwner, destinationEndpoint);
+                MapLocationPlugin.MapLocationLogger.LogInfo("Starting map server");
+                _mapDataServer = MapLocationPlugin.ServiceContainer.GetInstance<IMapDataServer>();
+                _mapDataServer.StartServer(MapLocationPlugin.ListenIpAddress.Value, MapLocationPlugin.ListenPort.Value);
+                _mapDataServer.OnGameStarted();
+                MapLocationPlugin.MapLocationLogger.LogInfo("Map server started");
             }
-
-            _mapLocationBroadcastService.StartBroadcastingPosition(MapLocationPlugin.RefreshIntervalMillieconds.Value);
-        }
-
-        private void RefreshIntervalSecondsOnSettingChanged(object sender, EventArgs e)
-        {
-            _mapLocationBroadcastService.ChangeInterval(MapLocationPlugin.RefreshIntervalMillieconds.Value);
-        }
-
-        [UsedImplicitly]
-        public void Stop()
-        {
-            _mapLocationBroadcastService?.StopBroadcastingPosition();
-        }
-        
-        private Player GetLocalPlayerFromWorld()
-        {
-            GameWorld gameWorld = Singleton<GameWorld>.Instance;
-            if (gameWorld == null || gameWorld.MainPlayer == null)
+            catch (Exception e)
             {
-                return null;
+                MapLocationPlugin.MapLocationLogger.LogError($"Exception {e.GetType()} occured. Message: {e.Message}. StackTrace: {e.StackTrace}");
             }
-
-            return gameWorld.MainPlayer;
         }
 
         [UsedImplicitly]
         public void OnDestroy()
         {
-            _mapLocationBroadcastService.Dispose();
-            Destroy(this);
+            try
+            {
+                _mapDataServer.OnGameEnded();
+                Destroy(this);
+            }
+            catch (Exception e)
+            {
+                MapLocationPlugin.MapLocationLogger.LogError($"Exception {e.GetType()} occured. Message: {e.Message}. StackTrace: {e.StackTrace}");
+            }
         }
     }
 }

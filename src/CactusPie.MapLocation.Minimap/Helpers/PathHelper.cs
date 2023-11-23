@@ -11,7 +11,7 @@ public static class PathHelper
     {
         return Path.Combine(BaseDirectory, subPath);
     }
-    
+
     public static string GetAbsolutePath(string subPath1, string subPath2)
     {
         return Path.Combine(BaseDirectory, subPath1, subPath2);

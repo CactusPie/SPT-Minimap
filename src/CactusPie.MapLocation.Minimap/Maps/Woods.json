@@ -1,7 +1,9 @@
 {
   "MapName": "Woods",
-  "MapImageFile": "woods_map.png",
+  "MapIdentifier": "woods",
+  "MapImageFile": "woods.jpg",
   "MapRotation": 0,
+  "MarkerScale": 0.8,
   "XCoefficients": [
     987.1010254697737,
     -0.744467365868558

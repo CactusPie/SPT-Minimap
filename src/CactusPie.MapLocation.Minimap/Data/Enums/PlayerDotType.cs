@@ -3,5 +3,6 @@
 public enum PlayerDotType
 {
     Circle,
-    CircleWithArrow
+
+    CircleWithArrow,
 }

@@ -1,17 +1,26 @@
-﻿using BepInEx;
+﻿using Aki.Custom.Airdrops.Patches;
+using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
+using CactusPie.MapLocation.DI;
+using CactusPie.MapLocation.Patches;
+using CactusPie.MapLocation.Services;
+using CactusPie.MapLocation.Services.Airdrop;
 using JetBrains.Annotations;
 
 namespace CactusPie.MapLocation
 {
-    [BepInPlugin("com.cactuspie.maplocation", "CactusPie.MapLocation", "1.0.0")]
-    public class MapLocationPlugin : BaseUnityPlugin
+    [BepInPlugin("com.cactuspie.maplocation", "CactusPie.MapLocation", "2.0.0")]
+    public sealed class MapLocationPlugin : BaseUnityPlugin
     {
         internal static ManualLogSource MapLocationLogger { get; private set; }
-        internal static ConfigEntry<int> RefreshIntervalMillieconds { get; private set; }
-        internal static ConfigEntry<string> DestinationIpAddress { get; private set; }
-        internal static ConfigEntry<int> DestinationPort { get; private set; }
+
+        internal static ConfigEntry<string> ListenIpAddress { get; private set; }
+
+        internal static ConfigEntry<int> ListenPort { get; private set; }
+
+        // We use LightInject here for easy and lightweight dependency injection
+        internal static ServiceContainer ServiceContainer { get; private set; }
 
         [UsedImplicitly]
         internal void Start()
@@ -20,41 +29,31 @@ namespace CactusPie.MapLocation
             MapLocationLogger.LogInfo("MapLocation loaded");
 
             const string configSection = "Map settings";
-            
-            RefreshIntervalMillieconds = Config.Bind
-            (
+
+            ListenIpAddress = Config.Bind(
                 configSection,
-                nameof(RefreshIntervalMillieconds),
-                1000,
-                new ConfigDescription
-                (
-                    "Map position refresh interval in milliseconds (1 second = 1000 milliseconds)", 
-                    new AcceptableValueRange<int>(50, 5000)
-                )
-            );
-            
-            DestinationIpAddress = Config.Bind
-            (
-                configSection,
-                nameof(DestinationIpAddress),
+                nameof(ListenIpAddress),
                 "127.0.0.1",
-                new ConfigDescription("Destination IP Address (requires starting a new round)")
+                new ConfigDescription("Listen IP Address (requires restarting the game)")
             );
-            
-            DestinationPort = Config.Bind
-            (
+
+            ListenPort = Config.Bind(
                 configSection,
-                nameof(DestinationPort),
-                44365,
-                new ConfigDescription
-                (
-                    "Destination Port (requires starting a new round)", 
+                nameof(ListenPort),
+                45365,
+                new ConfigDescription(
+                    "Destination Port (requires restarting the game)",
                     new AcceptableValueRange<int>(1024, 65535)
                 )
             );
 
+            ServiceContainer = ContainerBuilder.BuildContainer();
+            var server = ServiceContainer.GetInstance<IMapDataServer>();
+            server.StartServer(ListenIpAddress.Value, ListenPort.Value);
+
             new MapLocationPatch().Enable();
+            new AirdropMapLocationPatch(ServiceContainer.GetInstance<IAirdropService>()).Enable();
+            new TryNotifyConditionChangedPatch(ServiceContainer.GetInstance<IMapDataServer>()).Enable();
         }
-        
     }
 }

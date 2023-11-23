@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 
@@ -18,16 +19,16 @@ public static class PolynomialHelper
                 v[i, j] = Math.Pow(x[i], j);
             }
         }
-            
-        var yv = new DenseVector(y).ToColumnMatrix();
+
+        Matrix<double>? yv = new DenseVector(y).ToColumnMatrix();
         QR<double> qr = v.QR();
 
-        var r = qr.R.SubMatrix(0, degree + 1, 0, degree + 1);
-        var q = v.Multiply(r.Inverse());
-        var p = r.Inverse().Multiply(q.TransposeThisAndMultiply(yv));
+        Matrix<double>? r = qr.R.SubMatrix(0, degree + 1, 0, degree + 1);
+        Matrix<double>? q = v.Multiply(r.Inverse());
+        Matrix<double>? p = r.Inverse().Multiply(q.TransposeThisAndMultiply(yv));
         return p.Column(0).ToArray();
     }
-    
+
     public static double CalculatePolynomialValue(double x, IReadOnlyList<double> coefficients)
     {
         double result = 0;
@@ -36,12 +37,12 @@ public static class PolynomialHelper
         {
             result = coefficients[0];
         }
-        
+
         if (coefficients.Count > 1)
         {
             result += coefficients[1] * x;
         }
-        
+
         for (int i = 2; i < coefficients.Count; i++)
         {
             result += coefficients[i] * Math.Pow(x, i);

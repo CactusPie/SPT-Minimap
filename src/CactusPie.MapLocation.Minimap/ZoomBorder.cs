@@ -10,30 +10,10 @@ namespace CactusPie.MapLocation.Minimap;
 public class ZoomBorder : Border
 {
     private UIElement? _child;
+
     private Point _origin;
+
     private Point _start;
-
-    public TranslateTransform GetTranslateTransform()
-    {
-        if (_child == null)
-        {
-            throw new NullReferenceException("Child cannot be null");
-        }
-        
-        return (TranslateTransform)((TransformGroup)_child.RenderTransform)
-            .Children.First(transform => transform is TranslateTransform);
-    }
-
-    public ScaleTransform GetScaleTransform()
-    {
-        if (_child == null)
-        {
-            throw new NullReferenceException("Child cannot be null");
-        }
-        
-        return (ScaleTransform)((TransformGroup)_child.RenderTransform)
-            .Children.First(transform => transform is ScaleTransform);
-    }
 
     public override UIElement? Child
     {
@@ -49,6 +29,28 @@ public class ZoomBorder : Border
         }
     }
 
+    public TranslateTransform GetTranslateTransform()
+    {
+        if (_child == null)
+        {
+            throw new NullReferenceException("Child cannot be null");
+        }
+
+        return (TranslateTransform)((TransformGroup)_child.RenderTransform)
+            .Children.First(transform => transform is TranslateTransform);
+    }
+
+    public ScaleTransform GetScaleTransform()
+    {
+        if (_child == null)
+        {
+            throw new NullReferenceException("Child cannot be null");
+        }
+
+        return (ScaleTransform)((TransformGroup)_child.RenderTransform)
+            .Children.First(transform => transform is ScaleTransform);
+    }
+
     public void Initialize(UIElement? element)
     {
         _child = element;
@@ -56,11 +58,11 @@ public class ZoomBorder : Border
         {
             return;
         }
-        
-        TransformGroup transformGroup = new TransformGroup();
-        ScaleTransform scaleTransform = new ScaleTransform();
+
+        var transformGroup = new TransformGroup();
+        var scaleTransform = new ScaleTransform();
         transformGroup.Children.Add(scaleTransform);
-        TranslateTransform translateTransform = new TranslateTransform();
+        var translateTransform = new TranslateTransform();
         transformGroup.Children.Add(translateTransform);
         _child.RenderTransform = transformGroup;
         _child.RenderTransformOrigin = new Point(0.0, 0.0);
@@ -100,7 +102,7 @@ public class ZoomBorder : Border
         TranslateTransform translateTransform = GetTranslateTransform();
 
         double zoom = e.Delta > 0 ? .2 : -.2;
-            
+
         if (!(e.Delta > 0) && (scaleTransform.ScaleX < .4 || scaleTransform.ScaleY < .4))
         {
             return;
