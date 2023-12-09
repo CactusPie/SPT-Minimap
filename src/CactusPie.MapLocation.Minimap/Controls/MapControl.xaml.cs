@@ -184,7 +184,7 @@ public partial class MapControl : UserControl
 
         BotMarkers.EnsureCapacity(botLocations.Count);
 
-        Visibility visibility = BotMarkersVisible ? Visibility.Visible : Visibility.Collapsed;
+        Visibility visibility = BotMarkersVisible ? Visibility.Visible : Visibility.Hidden;
 
         // We scale it so it looks the same regardless of map size
         var scaleTransform = new ScaleTransform
@@ -284,7 +284,7 @@ public partial class MapControl : UserControl
             if (_lastReceivedAirdropData != null)
             {
                 _lastReceivedAirdropData = null;
-                AirdropMarkerImage.Visibility = Visibility.Collapsed;
+                AirdropMarkerImage.Visibility = Visibility.Hidden;
                 return;
             }
 
@@ -532,7 +532,7 @@ public partial class MapControl : UserControl
 
     private void SetQuestMarkerVisibility(bool areVisible)
     {
-        Visibility visibility = areVisible ? Visibility.Visible : Visibility.Collapsed;
+        Visibility visibility = areVisible ? Visibility.Visible : Visibility.Hidden;
 
         foreach (QuestMarker questMarker in QuestMarkers.Values)
         {
@@ -542,7 +542,7 @@ public partial class MapControl : UserControl
 
     private void SetBotMarkerVisibility(bool areVisible)
     {
-        Visibility visibility = areVisible ? Visibility.Visible : Visibility.Collapsed;
+        Visibility visibility = areVisible ? Visibility.Visible : Visibility.Hidden;
 
         foreach (Image botMarker in BotMarkers.Values)
         {
@@ -599,14 +599,18 @@ public partial class MapControl : UserControl
             RemoveQuest(questIdToRemove);
         }
 
-        Visibility visibility = QuestMarkersVisible ? Visibility.Visible : Visibility.Collapsed;
+        Visibility visibility = QuestMarkersVisible ? Visibility.Visible : Visibility.Hidden;
 
         // We scale it so it looks the same regardless of map size
+        var transformGroup = new TransformGroup();
         var scaleTransform = new ScaleTransform
         {
             ScaleX = selectedMap.MarkerScale,
             ScaleY = selectedMap.MarkerScale,
         };
+
+        transformGroup.Children.Add(new RotateTransform { Angle = -selectedMap.MapRotation });
+        transformGroup.Children.Add(scaleTransform);
 
         foreach (QuestData quest in quests)
         {
@@ -626,7 +630,16 @@ public partial class MapControl : UserControl
             {
                 questMarker = new QuestMarker(quest);
                 questMarker.Visibility = visibility;
-                questMarker.RenderTransform = scaleTransform;
+
+                questMarker.Loaded += (_, _) =>
+                {
+                    // We want to rotate along the middle of the checkmark button. 2d is here because we want to halve
+                    // the button height or width
+                    double xTransform = questMarker.QuestButton.ActualWidth / (2d * questMarker.ActualWidth);
+                    double yTransform = questMarker.QuestButton.ActualHeight/ (2d * questMarker.ActualHeight);
+                    questMarker.RenderTransformOrigin = new Point(xTransform, yTransform);
+                    questMarker.RenderTransform = transformGroup;
+                };
 
                 WeakEventManager<QuestMarker, QuestMarkerDescriptionVisibilityChangedEventArgs>
                     .AddHandler(questMarker, nameof(questMarker.DescriptionVisibilityChanged), OnQuestMarkerOnDescriptionVisibilityChanged);
@@ -645,7 +658,7 @@ public partial class MapControl : UserControl
     {
         if (_lastReceivedAirdropData == null)
         {
-            AirdropMarkerImage.Visibility = Visibility.Collapsed;
+            AirdropMarkerImage.Visibility = Visibility.Hidden;
             return;
         }
 

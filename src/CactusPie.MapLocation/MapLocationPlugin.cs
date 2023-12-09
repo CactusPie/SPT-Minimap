@@ -10,7 +10,7 @@ using JetBrains.Annotations;
 
 namespace CactusPie.MapLocation
 {
-    [BepInPlugin("com.cactuspie.maplocation", "CactusPie.MapLocation", "2.0.0")]
+    [BepInPlugin("com.cactuspie.maplocation", "CactusPie.MapLocation", "2.0.1")]
     public sealed class MapLocationPlugin : BaseUnityPlugin
     {
         internal static ManualLogSource MapLocationLogger { get; private set; }

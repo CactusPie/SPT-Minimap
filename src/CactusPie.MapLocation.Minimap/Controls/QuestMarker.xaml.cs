@@ -35,7 +35,7 @@ public partial class QuestMarker : UserControl
     private void ToggleDescriptionVisibility()
     {
         DescriptionButton.Visibility =
-            DescriptionButton.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+            DescriptionButton.Visibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
         IsDescriptionVisible = DescriptionButton.Visibility == Visibility.Visible;
         OnDescriptionVisibilityChanged(new QuestMarkerDescriptionVisibilityChangedEventArgs(IsDescriptionVisible));
     }
