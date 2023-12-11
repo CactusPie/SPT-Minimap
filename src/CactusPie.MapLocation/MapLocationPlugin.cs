@@ -1,5 +1,4 @@
-﻿using Aki.Custom.Airdrops.Patches;
-using BepInEx;
+﻿using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using CactusPie.MapLocation.DI;
@@ -10,7 +9,7 @@ using JetBrains.Annotations;
 
 namespace CactusPie.MapLocation
 {
-    [BepInPlugin("com.cactuspie.maplocation", "CactusPie.MapLocation", "2.0.1")]
+    [BepInPlugin("com.cactuspie.maplocation", "CactusPie.MapLocation", "2.0.2")]
     public sealed class MapLocationPlugin : BaseUnityPlugin
     {
         internal static ManualLogSource MapLocationLogger { get; private set; }
