@@ -96,6 +96,9 @@
         <None Update="Maps\MapCreationData\Bounds\Customs\3 Story Dorm 3F.txt">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Maps\MapCreationData\Bounds\Interchange\Garage Middle.txt">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <ItemGroup>
