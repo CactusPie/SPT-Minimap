@@ -75,7 +75,6 @@ public partial class MainWindow : Window
         ReloadMapCreationPositionData();
         OtherSettingsStackPanek.Children.Insert(0, _themeSelectorFactory());
 
-
         BoundSettings boundSettings = _boundSettingsControlFactory();
         Grid.SetRow(boundSettings, 1);
         Grid.SetColumnSpan(boundSettings, 2);

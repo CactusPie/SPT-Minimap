@@ -196,17 +196,25 @@ public partial class MapControl : UserControl
         // Add or update bots
         foreach (BotLocation botLocation in botLocations)
         {
-            double transformedXPosition;
-            double transformedZPosition;
+            double transformedXPosition = 0;
+            double transformedZPosition = 0;
 
-            BoundData? selectedBound = _currentMapData.SelectedBound;
-            if (_currentMapData.AutomaticallySwitchLevels &&
-                selectedBound?.IsValidForGamePosition(botLocation.XPosition, botLocation.ZPosition, botLocation.YPosition) == true)
+            bool foundMatchingBound = false;
+            foreach (BoundData customBound in _currentMapData.SelectedMap!.CustomBounds)
             {
-                transformedXPosition = selectedBound.TransformXPosition(botLocation.XPosition) - 10;
-                transformedZPosition = selectedBound.TransformZPosition(botLocation.ZPosition) - 10;
+                if (customBound.IsValidForGamePosition(
+                        botLocation.XPosition,
+                        botLocation.ZPosition,
+                        botLocation.YPosition))
+                {
+                    transformedXPosition = customBound.TransformXPosition(botLocation.XPosition) - 10;
+                    transformedZPosition = customBound.TransformZPosition(botLocation.ZPosition) - 10;
+                    foundMatchingBound = true;
+                    break;
+                }
             }
-            else
+
+            if (!foundMatchingBound)
             {
                 transformedXPosition = selectedMap.TransformXPosition(botLocation.XPosition) - 10;
                 transformedZPosition = selectedMap.TransformZPosition(botLocation.ZPosition) - 10;
