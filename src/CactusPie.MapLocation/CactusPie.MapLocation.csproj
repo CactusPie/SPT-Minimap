@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net472</TargetFramework>
-        <Version>2.0.0</Version>
+        <Version>2.0.4</Version>
         <Authors>CactusPie</Authors>
     </PropertyGroup>
 

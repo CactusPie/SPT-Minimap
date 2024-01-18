@@ -161,7 +161,7 @@ public partial class MapControl : UserControl
         _playerDotRotation.Angle = angle;
     }
 
-    public void SetBotGameLocations(List<BotLocation> botLocations)
+    public void SetBotGameLocations(List<BotLocation> botLocations, bool useCustomBounds)
     {
         // Remove bots that no longer exist
         List<int> botIdsToRemove =
@@ -200,17 +200,21 @@ public partial class MapControl : UserControl
             double transformedZPosition = 0;
 
             bool foundMatchingBound = false;
-            foreach (BoundData customBound in _currentMapData.SelectedMap!.CustomBounds)
+
+            if (useCustomBounds)
             {
-                if (customBound.IsValidForGamePosition(
-                        botLocation.XPosition,
-                        botLocation.ZPosition,
-                        botLocation.YPosition))
+                foreach (BoundData customBound in _currentMapData.SelectedMap!.CustomBounds)
                 {
-                    transformedXPosition = customBound.TransformXPosition(botLocation.XPosition) - 10;
-                    transformedZPosition = customBound.TransformZPosition(botLocation.ZPosition) - 10;
-                    foundMatchingBound = true;
-                    break;
+                    if (customBound.IsValidForGamePosition(
+                            botLocation.XPosition,
+                            botLocation.ZPosition,
+                            botLocation.YPosition))
+                    {
+                        transformedXPosition = customBound.TransformXPosition(botLocation.XPosition) - 10;
+                        transformedZPosition = customBound.TransformZPosition(botLocation.ZPosition) - 10;
+                        foundMatchingBound = true;
+                        break;
+                    }
                 }
             }
 
@@ -455,7 +459,7 @@ public partial class MapControl : UserControl
 
         if (lastReceivedPosition.BotLocations != null)
         {
-            SetBotGameLocations(lastReceivedPosition.BotLocations);
+            SetBotGameLocations(lastReceivedPosition.BotLocations, _currentMapData.AutomaticallySwitchLevels);
         }
 
     }
